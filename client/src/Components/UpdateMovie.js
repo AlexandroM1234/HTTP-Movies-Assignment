@@ -6,7 +6,7 @@ const initialMovieState = {
   title: "",
   director: "",
   metascore: "",
-  stars: [""]
+  stars: ""
 };
 
 const UpdateMovie = props => {
@@ -15,6 +15,7 @@ const UpdateMovie = props => {
   const [movie, setMovie] = useState(initialMovieState);
 
   const handleChange = e => {
+    e.persist();
     setMovie({
       ...movie,
       [e.target.name]: e.target.value
@@ -35,6 +36,8 @@ const UpdateMovie = props => {
       .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then(res => {
         console.log(res);
+        props.setSavedList(res.data);
+        push("/movies");
       })
       .catch(err => console.log("you messed up the axios put", err));
   };
