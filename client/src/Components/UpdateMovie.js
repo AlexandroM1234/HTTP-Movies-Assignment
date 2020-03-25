@@ -10,10 +10,11 @@ const UpdateMovie = props => {
     title: "",
     director: "",
     metascore: "",
-    stars: [""]
+    stars: []
   };
 
   const [movie, setMovie] = useState(initialMovieState);
+  console.log(props.movieList);
 
   const handleChange = e => {
     setMovie({
@@ -33,7 +34,7 @@ const UpdateMovie = props => {
   const handleSubmit = e => {
     e.preventDefault();
     axios
-      .put(`Shttp://localhost:5000/api/movies/${id}`, movie)
+      .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then(res => {
         // console.log(res.data);
         props.setMovieList(res.data);
