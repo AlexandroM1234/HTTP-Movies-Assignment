@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 
-const initialMovieState = {
-  title: "",
-  director: "",
-  metascore: "",
-  stars: ""
-};
-
 const UpdateMovie = props => {
   const { id } = useParams();
   const { push } = useHistory();
+
+  const initialMovieState = {
+    title: "",
+    director: "",
+    metascore: "",
+    stars: [""]
+  };
+
   const [movie, setMovie] = useState(initialMovieState);
 
   const handleChange = e => {
-    e.persist();
     setMovie({
       ...movie,
       [e.target.name]: e.target.value
@@ -23,20 +23,20 @@ const UpdateMovie = props => {
   };
 
   useEffect(() => {
-    // console.log(props);
-    const movieToUpdate = props.savedList.find(e => `${e.id}` === id);
+    console.log(props.movieList);
+    const movieToUpdate = props.movieList.find(e => `${e.id}` === id);
     if (movieToUpdate) {
       setMovie(movieToUpdate);
     }
-  }, [props.savedList, id]);
+  }, [props.movieList, id]);
 
   const handleSubmit = e => {
     e.preventDefault();
     axios
-      .put(`http://localhost:5000/api/movies/${id}`, movie)
+      .put(`Shttp://localhost:5000/api/movies/${id}`, movie)
       .then(res => {
-        console.log(res);
-        props.setSavedList(res.data);
+        // console.log(res.data);
+        props.setMovieList(res.data);
         push("/movies");
       })
       .catch(err => console.log("you messed up the axios put", err));
